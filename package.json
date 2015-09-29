@@ -1,0 +1,15 @@
+{
+  "name": "minid3",
+  "version": "0.1.0",
+  "description": "A tiny reimplementation of d3",
+  "main": "minid3.js",
+  "dependencies": {
+    "d3": "^3.5.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node node_modules/jasmine-node/lib/jasmine-node/cli.js --color spec/"
+  },
+  "author": "Mary Rose Cook",
+  "license": "MIT"
+}
