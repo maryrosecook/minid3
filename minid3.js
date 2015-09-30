@@ -1,31 +1,42 @@
-function makeInstance() {
-  return mixin(api, [[document]]);
+function createSelection(selection) {
+  return setProto(selection || [[document]], selectionPrototype);
 };
 
-var api = {
+var selectionPrototype = {
   select: function(selectorString) {
-    return this.map(function(s) { console.log(s);return s.querySelector(selectorString); });
+    return this.reduce(function(a, e) {
+      a.push(e.map(function(s) { return s.querySelector(selectorString); }));
+      return a
+    }, []);
   },
 
   selectAll: function(selectorString) {
-    return this.map(function(s) { return s.querySelectorAll(selectorString); });
+    return this.reduce(function(a, e) {
+      return a.concat(e.map(function(s) { return arr(s.querySelectorAll(selectorString)); }));
+    }, []);
+  },
+
+  data: function(data) {
+    // var selection = this[0];
+    // var enter =
   }
 };
 
-function mixin(from, to) {
-  for (var i in from) {
-    to[i] = from[i];
-  }
+function setProto(obj, proto) {
+  obj.__proto__.__proto__ = proto;
+  return obj;
+};
 
-  return to;
+function arr(arrayLike) {
+  return Array.prototype.slice.call(arrayLike);
 };
 
 var minid3 = {
   select: function(selectorString) {
-    return makeInstance().select(selectorString);
+    return createSelection().select(selectorString);
   },
 
   selectAll: function(selectorString) {
-    return makeInstance().selectAll(selectorString);
+    return createSelection().selectAll(selectorString);
   }
 };
