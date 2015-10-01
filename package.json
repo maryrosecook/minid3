@@ -4,7 +4,9 @@
   "description": "A tiny reimplementation of d3",
   "main": "minid3.js",
   "dependencies": {
-    "d3": "^3.5.6"
+    "d3": "^3.5.6",
+    "jasmine-node": "^1.14.5",
+    "jsdom": "^6.5.1"
   },
   "devDependencies": {},
   "scripts": {
