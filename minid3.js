@@ -1,30 +1,29 @@
-function createSelection(selection) {
-  return setProto(selection || [[document]], selectionPrototype);
-};
+function quote(string) {
+  return '"' + string + '"'; // XXX not complete
+}
 
-var selectionPrototype = {
+var selectionMixin = {
   select: function(selectorString) {
-    return this.reduce(function(a, e) {
+    return addSelectionMixin(this.reduce(function(a, e) {
       a.push(e.map(function(s) { return s.querySelector(selectorString); }));
-      return a
-    }, []);
+      return a;
+    }, []));
   },
 
   selectAll: function(selectorString) {
-    return this.reduce(function(a, e) {
-      return a.concat(e.map(function(s) { return arr(s.querySelectorAll(selectorString)); }));
-    }, []);
-  },
-
-  data: function(data) {
-    // var selection = this[0];
-    // var enter =
+    return addSelectionMixin(this.reduce(function(a, e) {
+      return a.concat(e.map(function(s) {
+        return arr(s.querySelectorAll(selectorString)); }));
+    }, []));
   }
 };
 
-function setProto(obj, proto) {
-  obj.__proto__.__proto__ = proto;
-  return obj;
+function addSelectionMixin(selection) {
+  for (var key in selectionMixin) {
+    selection[key] = selectionMixin[key];
+  }
+
+  return selection;
 };
 
 function arr(arrayLike) {
@@ -33,10 +32,10 @@ function arr(arrayLike) {
 
 var minid3 = {
   select: function(selectorString) {
-    return createSelection().select(selectorString);
+    return addSelectionMixin([[document]]).select(selectorString);
   },
 
   selectAll: function(selectorString) {
-    return createSelection().selectAll(selectorString);
+    return addSelectionMixin([[document]]).selectAll(selectorString);
   }
 };
