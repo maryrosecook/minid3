@@ -1,11 +1,18 @@
 var jsdom = require("jsdom");
 
 function withDocument(html, test) {
-  jsdom.env(
-    html,
-    ["node_modules/d3/d3.js",
-     "minid3.js"],
-    function (err, window) {
+  var virtualConsole = jsdom.createVirtualConsole();
+
+  virtualConsole.on("log", function (message) {
+    console.log(message);
+  });
+
+  jsdom.env({
+    virtualConsole: virtualConsole,
+    html: html,
+    scripts: ["node_modules/d3/d3.js",
+              "minid3.js"],
+    done: function (err, window) {
       if (err) { throw err; }
 
       try {
@@ -14,7 +21,7 @@ function withDocument(html, test) {
         console.log(e.stack);
       }
     }
-  );
+  });
 };
 
 describe("", function() {
