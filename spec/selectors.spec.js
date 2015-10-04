@@ -24,7 +24,7 @@ function withDocument(html, test) {
   });
 };
 
-describe("", function() {
+describe("selectors", function() {
   it("should be able to select body", function(done) {
     var html = "";
     withDocument(html, function(document, d3, minid3) {
