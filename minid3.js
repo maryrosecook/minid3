@@ -21,27 +21,27 @@ var selectionMixin = {
     var enter = [];
     var exit = [];
 
-    this.forEach(function(subarray) {
-      var subArrayEnter = [];
-      var subArrayExit = [];
+    this.forEach(function(subSelection) {
+      var subSelectionEnter = [];
+      var subSelectionExit = [];
 
-      for (var i = 0; i < Math.max(subarray.length, data.length); i++) {
-        var element = subarray
-        if (i >= subarray.length) {
-          subArrayExit.push(element);
+      for (var i = 0; i < Math.max(subSelection.length, data.length); i++) {
+        var element = subSelection
+        if (i >= subSelection.length) {
+          subSelectionExit.push(element);
           delete element.__data__;
         } else {
           element.__data__ = data[i];
         }
       }
 
-      subArrayEnter.length = i;
+      subSelectionEnter.length = i;
       for (; i < data.length; i++) {
-        subArrayEnter.push({ __data__: data[i] });
+        subSelectionEnter.push({ __data__: data[i] });
       }
 
-      enter.push(subArrayEnter);
-      exit.push(subArrayExit);
+      enter.push(subSelectionEnter);
+      exit.push(subSelectionExit);
     });
 
     this.enter = function() {
@@ -56,9 +56,9 @@ var selectionMixin = {
   },
 
   attr: function(name, setting) {
-    this.forEach(function(subarray) {
+    this.forEach(function(subSelection) {
       var i = 0;
-      subarray.forEach(function(element) {
+      subSelection.forEach(function(element) {
         var value;
         if (typeof setting === 'function') {
           value = setting(element.__data__, i);
