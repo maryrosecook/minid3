@@ -60,10 +60,12 @@ var selectionMixin = {
       var i = 0;
       subarray.forEach(function(element) {
         var value;
-        if (typeof setting === 'function')
+        if (typeof setting === 'function') {
           value = setting(element.__data__, i);
-        else
+        } else {
           value = setting;
+        }
+
         element.setAttribute(name, value);
         ++i;
       });

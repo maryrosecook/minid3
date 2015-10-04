@@ -1,33 +1,9 @@
-var jsdom = require("jsdom");
-
-function withDocument(html, test) {
-  var virtualConsole = jsdom.createVirtualConsole();
-
-  virtualConsole.on("log", function (message) {
-    console.log(message);
-  });
-
-  jsdom.env({
-    virtualConsole: virtualConsole,
-    html: html,
-    scripts: ["node_modules/d3/d3.js",
-              "minid3.js"],
-    done: function (err, window) {
-      if (err) { throw err; }
-
-      try {
-        test(window.document, window.d3, window.minid3)
-      } catch (e) {
-        console.log(e.stack);
-      }
-    }
-  });
-};
+var testUtil = require("./test-util");
 
 describe("selectors", function() {
   it("should be able to select body", function(done) {
     var html = "";
-    withDocument(html, function(document, d3, minid3) {
+    testUtil.withDocument(html, function(document, d3, minid3) {
       expect(d3.select("body")[0][0]).toEqual(document.body);
       expect(d3.select("body")[0][0]).toEqual(minid3.select("body")[0][0]);
       done();
@@ -36,7 +12,7 @@ describe("selectors", function() {
 
   it("should be able to chain selection on initial selection", function(done) {
     var html = "<p id='hi'></p>";
-    withDocument(html, function(document, d3, minid3) {
+    testUtil.withDocument(html, function(document, d3, minid3) {
       expect(minid3.select("body").select("p")[0][0].id).toEqual("hi");
       expect(minid3.select("body").select("p")[0][0]).toEqual(document.body.querySelector("p"));
       done();
@@ -51,7 +27,7 @@ describe("selectors", function() {
       </div>
     `;
 
-    withDocument(html, function(document, d3, minid3) {
+    testUtil.withDocument(html, function(document, d3, minid3) {
       expect(minid3.select("#d3").selectAll("p")[0][0].nodeName).toEqual("P");
       expect(minid3.select("#d3").selectAll("p")[0][1].nodeName).toEqual("P");
       expect(minid3.select("#d3").selectAll("p")).toEqual(minid3.select("#d3").selectAll("p"));
@@ -73,7 +49,7 @@ describe("selectors", function() {
       </div>
     `;
 
-    withDocument(html, function(document, d3, minid3) {
+    testUtil.withDocument(html, function(document, d3, minid3) {
       var d3Results = d3.select("#d3").selectAll("div").selectAll("p");
       var minid3Results = minid3.select("#d3").selectAll("div").selectAll("p");
 
@@ -123,7 +99,7 @@ describe("selectors", function() {
       </div>
     `;
 
-    withDocument(html, function(document, d3, minid3) {
+    testUtil.withDocument(html, function(document, d3, minid3) {
       var d3Results = d3.select("#d3").selectAll("div").selectAll("p").selectAll("strong");
       var minid3Results = minid3.select("#d3").selectAll("div").selectAll("p").selectAll("strong");
 
