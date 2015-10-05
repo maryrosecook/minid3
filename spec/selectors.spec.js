@@ -21,23 +21,23 @@ describe("selectors", function() {
 
   it("chained selectAll expands single item into many", function(done) {
     var html = `
-      <div id="d3">
+      <div id="top">
         <p></p>
         <p></p>
       </div>
     `;
 
     testUtil.withDocument(html, function(document, d3, minid3) {
-      expect(minid3.select("#d3").selectAll("p")[0][0].nodeName).toEqual("P");
-      expect(minid3.select("#d3").selectAll("p")[0][1].nodeName).toEqual("P");
-      expect(minid3.select("#d3").selectAll("p")).toEqual(minid3.select("#d3").selectAll("p"));
+      expect(minid3.select("#top").selectAll("p")[0][0].nodeName).toEqual("P");
+      expect(minid3.select("#top").selectAll("p")[0][1].nodeName).toEqual("P");
+      expect(minid3.select("#top").selectAll("p")).toEqual(minid3.select("#top").selectAll("p"));
       done();
     });
   });
 
   it("chained selectAlls on 2x2 nested html should give 2 groups of subs", function(done) {
     var html = `
-      <div id="d3">
+      <div id="top">
         <div>
           <p>a1</p>
           <p>c1</p>
@@ -50,8 +50,8 @@ describe("selectors", function() {
     `;
 
     testUtil.withDocument(html, function(document, d3, minid3) {
-      var d3Results = d3.select("#d3").selectAll("div").selectAll("p");
-      var minid3Results = minid3.select("#d3").selectAll("div").selectAll("p");
+      var d3Results = d3.select("#top").selectAll("div").selectAll("p");
+      var minid3Results = minid3.select("#top").selectAll("div").selectAll("p");
 
       expect(minid3Results[0][0].outerHTML).toEqual("<p>a1</p>"); // right content on last match tag
 
@@ -75,7 +75,7 @@ describe("selectors", function() {
 
   it("chained selectAlls on 2x2x2 nested html should give 4 groups of subs", function(done) {
     var html = `
-      <div id="d3">
+      <div id="top">
         <div>
           <p>
             <strong>a1</strong>
@@ -100,8 +100,8 @@ describe("selectors", function() {
     `;
 
     testUtil.withDocument(html, function(document, d3, minid3) {
-      var d3Results = d3.select("#d3").selectAll("div").selectAll("p").selectAll("strong");
-      var minid3Results = minid3.select("#d3").selectAll("div").selectAll("p").selectAll("strong");
+      var d3Results = d3.select("#top").selectAll("div").selectAll("p").selectAll("strong");
+      var minid3Results = minid3.select("#top").selectAll("div").selectAll("p").selectAll("strong");
 
       expect(minid3Results[0][0].outerHTML)
         .toEqual("<strong>a1</strong>"); // right content on first match
