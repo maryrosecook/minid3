@@ -5,8 +5,7 @@ var testUtil = {
     var virtualConsole = jsdom.createVirtualConsole();
 
     virtualConsole.on("log", function () {
-      var a = arguments;
-      console.log(a[0]||"", a[1]||"", a[2]||"", a[3]||"", a[4]||"", a[5]||"", a[6]||"", a[7]||"");
+      console.log.apply(null, arguments);
     });
 
     jsdom.env({
