@@ -88,7 +88,7 @@ describe("enter()", function() {
           .data([0, 1, 2, 3])
           .enter();
 
-      expect(unboundStrongs[0].length).toEqual(4, libName); // pads extra items
+      expect(unboundStrongs[0].length).toEqual(4, libName); // pads up to bound items
 
       expect(unboundStrongs[0][0]).toBeUndefined(libName);
       expect(unboundStrongs[0][1]).toBeUndefined(libName);
