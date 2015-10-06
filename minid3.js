@@ -25,19 +25,25 @@ var selectionMixin = {
       var subSelectionEnter = [];
       var subSelectionExit = [];
 
-      for (var i = 0; i < Math.max(subSelection.length, data.length); i++) {
-        var element = subSelection
-        if (i >= subSelection.length) {
-          subSelectionExit.push(element);
-          delete element.__data__;
-        } else {
-          element.__data__ = data[i];
+      // update
+      for (var i = 0; i < subSelection.length; i++) {
+        if (data[i] !== undefined) {
+          subSelection[i].__data__ = data[i];
         }
       }
+      subSelection.length = data.length;
 
+      // enter
       subSelectionEnter.length = i;
       for (; i < data.length; i++) {
         subSelectionEnter.push({ __data__: data[i] });
+      }
+
+      // exit
+      subSelectionExit.length = i;
+      for (; i < subSelection.length; i++) {
+        delete subSelection[i].__data__;
+        subSelectionExit.push(subSelection[i]);
       }
 
       enter.push(subSelectionEnter);
