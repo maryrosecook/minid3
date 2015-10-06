@@ -1,7 +1,7 @@
 var jsdom = require("jsdom");
 
 var testUtil = {
-  withDocument: function(html, test) {
+  withDocument: function(html, cb) {
     var virtualConsole = jsdom.createVirtualConsole();
 
     virtualConsole.on("log", function () {
@@ -17,11 +17,21 @@ var testUtil = {
         if (err) { throw err; }
 
         try {
-          test(window.document, window.d3, window.minid3)
+          cb(window)
         } catch (e) {
           console.log(e.stack);
         }
       }
+    });
+  },
+
+  runWithD3AndMinid3: function(html, test, done) {
+    testUtil.withDocument(html, function(d3Window) {
+      testUtil.withDocument(html, function(minid3Window) {
+        test(d3Window.d3, "d3");
+        test(minid3Window.minid3, "minid3");
+        done();
+      });
     });
   }
 };

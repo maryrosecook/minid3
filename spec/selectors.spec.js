@@ -3,18 +3,19 @@ var testUtil = require("./test-util");
 describe("selectors", function() {
   it("should be able to select body", function(done) {
     var html = "";
-    testUtil.withDocument(html, function(document, d3, minid3) {
-      expect(d3.select("body")[0][0]).toEqual(document.body);
-      expect(d3.select("body")[0][0]).toEqual(minid3.select("body")[0][0]);
+    testUtil.withDocument(html, function(window) {
+      expect(window.d3.select("body")[0][0]).toEqual(window.document.body);
+      expect(window.d3.select("body")[0][0]).toEqual(window.minid3.select("body")[0][0]);
       done();
     });
   });
 
   it("should be able to chain selection on initial selection", function(done) {
     var html = "<p id='hi'></p>";
-    testUtil.withDocument(html, function(document, d3, minid3) {
-      expect(minid3.select("body").select("p")[0][0].id).toEqual("hi");
-      expect(minid3.select("body").select("p")[0][0]).toEqual(document.body.querySelector("p"));
+    testUtil.withDocument(html, function(window) {
+      expect(window.minid3.select("body").select("p")[0][0].id).toEqual("hi");
+      expect(window.minid3.select("body").select("p")[0][0])
+        .toEqual(window.document.body.querySelector("p"));
       done();
     });
   });
@@ -27,10 +28,11 @@ describe("selectors", function() {
       </div>
     `;
 
-    testUtil.withDocument(html, function(document, d3, minid3) {
-      expect(minid3.select("#top").selectAll("p")[0][0].nodeName).toEqual("P");
-      expect(minid3.select("#top").selectAll("p")[0][1].nodeName).toEqual("P");
-      expect(minid3.select("#top").selectAll("p")).toEqual(minid3.select("#top").selectAll("p"));
+    testUtil.withDocument(html, function(window) {
+      expect(window.minid3.select("#top").selectAll("p")[0][0].nodeName).toEqual("P");
+      expect(window.minid3.select("#top").selectAll("p")[0][1].nodeName).toEqual("P");
+      expect(window.minid3.select("#top").selectAll("p"))
+        .toEqual(window.minid3.select("#top").selectAll("p"));
       done();
     });
   });
@@ -49,9 +51,9 @@ describe("selectors", function() {
       </div>
     `;
 
-    testUtil.withDocument(html, function(document, d3, minid3) {
-      var d3Results = d3.select("#top").selectAll("div").selectAll("p");
-      var minid3Results = minid3.select("#top").selectAll("div").selectAll("p");
+    testUtil.withDocument(html, function(window) {
+      var d3Results = window.d3.select("#top").selectAll("div").selectAll("p");
+      var minid3Results = window.minid3.select("#top").selectAll("div").selectAll("p");
 
       expect(minid3Results[0][0].outerHTML).toEqual("<p>a1</p>"); // right content on last match tag
 
@@ -99,9 +101,10 @@ describe("selectors", function() {
       </div>
     `;
 
-    testUtil.withDocument(html, function(document, d3, minid3) {
-      var d3Results = d3.select("#top").selectAll("div").selectAll("p").selectAll("strong");
-      var minid3Results = minid3.select("#top").selectAll("div").selectAll("p").selectAll("strong");
+    testUtil.withDocument(html, function(window) {
+      var d3Results = window.d3.select("#top").selectAll("div").selectAll("p").selectAll("strong");
+      var minid3Results = window.minid3
+          .select("#top").selectAll("div").selectAll("p").selectAll("strong");
 
       expect(minid3Results[0][0].outerHTML)
         .toEqual("<strong>a1</strong>"); // right content on first match
