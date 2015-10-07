@@ -22,6 +22,7 @@ var selectionMixin = {
     var exit = [];
 
     this.forEach(function(subSelection) {
+      var numSubSelectionElements = subSelection.length;
       var subSelectionEnter = [];
       var subSelectionExit = [];
 
@@ -34,7 +35,7 @@ var selectionMixin = {
       subSelection.length = data.length;
 
       // enter
-      subSelectionEnter.length = i;
+      subSelectionEnter.length = Math.min(numSubSelectionElements, data.length);
       for (; i < data.length; i++) {
         subSelectionEnter.push({ __data__: data[i] });
       }

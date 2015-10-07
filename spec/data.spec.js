@@ -97,4 +97,48 @@ describe("enter()", function() {
       expect(unboundStrongs[0][3].__data__).toEqual(3, libName);
     }, done);
   });
+
+  it("should return no unbound elements when no extra data", function(done) {
+    var html = `
+      <div id="d3">
+        <strong>a1</strong>
+        <strong>a2</strong>
+      </div>
+    `;
+
+    testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+      var unboundStrongs = d3
+          .select("#d3")
+          .selectAll("strong")
+          .data([0, 1])
+          .enter();
+
+      expect(unboundStrongs[0].length).toEqual(2, libName); // pads up to bound items
+
+      expect(unboundStrongs[0][2]).toBeUndefined(libName);
+    }, done);
+  });
+
+  it("should return no unbound elements when fewer datums than elements", function(done) {
+    var html = `
+      <div id="d3">
+        <strong>a1</strong>
+        <strong>a2</strong>
+        <strong>a3</strong>
+      </div>
+    `;
+
+    testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+      var unboundStrongs = d3
+          .select("#d3")
+          .selectAll("strong")
+          .data([0, 1])
+          .enter();
+
+      expect(unboundStrongs[0].length).toEqual(2, libName); // only pads to number of bound els
+
+      expect(unboundStrongs[0][0]).toBeUndefined(libName);
+      expect(unboundStrongs[0][1]).toBeUndefined(libName);
+    }, done);
+  });
 });
