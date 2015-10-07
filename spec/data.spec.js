@@ -145,6 +145,76 @@ describe("data()", function() {
   });
 
   describe("exit()", function() {
+    it("should return no elements when extra data", function(done) {
+      var html = `
+        <div id="d3">
+          <strong>a1</strong>
+          <strong>a2</strong>
+        </div>
+      `;
 
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var elements = d3
+            .select("#d3")
+            .selectAll("strong")
+            .data([0, 1, 2, 3])
+            .exit();
+
+        expect(elements[0].length).toEqual(2, libName);
+        expect(elements[0][0]).toBeUndefined(libName);
+        expect(elements[0][1]).toBeUndefined(libName);
+        expect(elements[0][2]).toBeUndefined(libName);
+        expect(elements[0][3]).toBeUndefined(libName);
+
+      }, done);
+    });
+
+    it("should return no elements when no extra data", function(done) {
+      var html = `
+        <div id="d3">
+          <strong>a1</strong>
+          <strong>a2</strong>
+        </div>
+      `;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var elements = d3
+            .select("#d3")
+            .selectAll("strong")
+            .data([0, 1])
+            .exit();
+
+        expect(elements[0].length).toEqual(2, libName); // pads up to bound items
+        expect(elements[0][0]).toBeUndefined(libName);
+        expect(elements[0][1]).toBeUndefined(libName);
+        expect(elements[0][2]).toBeUndefined(libName);
+      }, done);
+    });
+
+    it("should return elements when fewer datums than elements", function(done) {
+      var html = `
+        <div id="d3">
+          <strong>a1</strong>
+          <strong>a2</strong>
+          <strong>a3</strong>
+          <strong>a4</strong>
+        </div>
+      `;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var elements = d3
+            .select("#d3")
+            .selectAll("strong")
+            .data([0, 1])
+            .exit();
+
+        expect(elements[0].length).toEqual(4, libName);
+
+        expect(elements[0][0]).toBeUndefined(libName);
+        expect(elements[0][1]).toBeUndefined(libName);
+        expect(elements[0][2].nodeName).toEqual("STRONG", libName);
+        expect(elements[0][3].nodeName).toEqual("STRONG", libName);
+      }, done);
+    });
   });
 });

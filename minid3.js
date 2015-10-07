@@ -22,7 +22,7 @@ var selectionMixin = {
     var exit = [];
 
     this.forEach(function(subSelection) {
-      var numSubSelectionElements = subSelection.length;
+      var originalSubSelection = subSelection.slice();
       var subSelectionEnter = [];
       var subSelectionExit = [];
 
@@ -35,16 +35,16 @@ var selectionMixin = {
       subSelection.length = data.length;
 
       // enter
-      subSelectionEnter.length = Math.min(numSubSelectionElements, data.length);
+      subSelectionEnter.length = Math.min(originalSubSelection.length, data.length);
       for (; i < data.length; i++) {
         subSelectionEnter.push({ __data__: data[i] });
       }
 
       // exit
-      subSelectionExit.length = i;
-      for (; i < subSelection.length; i++) {
-        delete subSelection[i].__data__;
-        subSelectionExit.push(subSelection[i]);
+      subSelectionExit.length = Math.min(originalSubSelection.length, data.length);
+      for (var i = data.length; i < originalSubSelection.length; i++) {
+        delete originalSubSelection[i].__data__;
+        subSelectionExit.push(originalSubSelection[i]);
       }
 
       enter.push(subSelectionEnter);
