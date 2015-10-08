@@ -1,7 +1,7 @@
 var testUtil = require("./test-util");
 
 describe("dom mutation", function() {
-  it("should be able to set style of a lot of nested elements", function(done) {
+  it("should be able to set color of a lot of nested elements", function(done) {
     var html = `
       <div id="d3">
         <div>
@@ -33,7 +33,7 @@ describe("dom mutation", function() {
         .selectAll("div")
         .selectAll("p")
         .selectAll("strong")
-        .attr("style", "color: red;");
+        .style("color", "red");
 
       var strongs = d3.select("#d3").selectAll("strong")
 
@@ -46,7 +46,7 @@ describe("dom mutation", function() {
     }, done);
   });
 
-  it("should be able to set style of a lot of unnested elements", function(done) {
+  it("should be able to set color of a lot of unnested elements", function(done) {
     var html = `
       <div id="d3">
         <strong>a1</strong>
@@ -58,7 +58,7 @@ describe("dom mutation", function() {
       d3
         .select("#d3")
         .selectAll("strong")
-        .attr("style", "color: red;");
+        .style("color", "red");
 
       var strongs = d3.select("#d3").selectAll("strong")
 

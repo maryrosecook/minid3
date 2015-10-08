@@ -62,18 +62,17 @@ var selectionMixin = {
     return this;
   },
 
-  attr: function(name, setting) {
+  style: function(name, setting) {
     this.forEach(function(subSelection) {
       var i = 0;
       subSelection.forEach(function(element) {
         var value;
         if (typeof setting === 'function') {
-          value = setting(element.__data__, i);
+          element.style[name] = setting(element.__data__, i);
         } else {
-          value = setting;
+          element.style[name] = setting;
         }
 
-        element.setAttribute(name, value);
         ++i;
       });
     });
