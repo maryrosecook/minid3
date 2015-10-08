@@ -71,6 +71,43 @@ describe("data()", function() {
         expect(updatedElements[0][2]).toBeUndefined(libName);
       }, done);
     });
+
+    it("should update multiple sub selections of different sizes", function(done) {
+      var html = `
+        <div id="d3">
+          <p>
+            <strong>a1</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+            <strong>a3</strong>
+          </p>
+        </div>
+      `;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var updatedElements = d3
+            .selectAll("p")
+            .selectAll("strong")
+            .data([0, 1]);
+
+        expect(updatedElements[0][0].__data__).toEqual(0, libName);
+        expect(updatedElements[0][1]).toBeUndefined(libName);
+
+        expect(updatedElements[1][0].__data__).toEqual(0, libName);
+        expect(updatedElements[1][1].__data__).toEqual(1, libName);
+        expect(updatedElements[1][2]).toBeUndefined(libName);
+
+        expect(updatedElements[2][0].__data__).toEqual(0, libName);
+        expect(updatedElements[2][1].__data__).toEqual(1, libName);
+        expect(updatedElements[1][2]).toBeUndefined(libName);
+      }, done);
+    });
   });
 
   describe("enter()", function() {
@@ -140,6 +177,44 @@ describe("data()", function() {
 
         expect(unboundStrongs[0][0]).toBeUndefined(libName);
         expect(unboundStrongs[0][1]).toBeUndefined(libName);
+      }, done);
+    });
+
+    it("should update multiple sub selections of different sizes", function(done) {
+      var html = `
+        <div id="d3">
+          <p>
+            <strong>a1</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+            <strong>a3</strong>
+          </p>
+        </div>
+      `;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var updatedElements = d3
+            .selectAll("p")
+            .selectAll("strong")
+            .data([0, 1])
+            .enter();
+
+        expect(updatedElements[0][0]).toBeUndefined(libName);
+        expect(updatedElements[0][1].__data__).toEqual(1, libName);
+
+        expect(updatedElements[1][0]).toBeUndefined(libName);
+        expect(updatedElements[1][1]).toBeUndefined(libName);
+        expect(updatedElements[1][2]).toBeUndefined(libName);
+
+        expect(updatedElements[2][0]).toBeUndefined(libName);
+        expect(updatedElements[2][1]).toBeUndefined(libName);
+        expect(updatedElements[2][2]).toBeUndefined(libName);
       }, done);
     });
   });
@@ -214,6 +289,44 @@ describe("data()", function() {
         expect(elements[0][1]).toBeUndefined(libName);
         expect(elements[0][2].nodeName).toEqual("STRONG", libName);
         expect(elements[0][3].nodeName).toEqual("STRONG", libName);
+      }, done);
+    });
+
+    it("should update multiple sub selections of different sizes", function(done) {
+      var html = `
+        <div id="d3">
+          <p>
+            <strong>a1</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+          </p>
+          <p>
+            <strong>a1</strong>
+            <strong>a2</strong>
+            <strong>a3</strong>
+          </p>
+        </div>
+      `;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var updatedElements = d3
+            .selectAll("p")
+            .selectAll("strong")
+            .data([0, 1])
+            .exit();
+
+        expect(updatedElements[0][0]).toBeUndefined(libName);
+        expect(updatedElements[0][1]).toBeUndefined(libName);
+
+        expect(updatedElements[1][0]).toBeUndefined(libName);
+        expect(updatedElements[1][1]).toBeUndefined(libName);
+        expect(updatedElements[1][2]).toBeUndefined(libName);
+
+        expect(updatedElements[2][0]).toBeUndefined(libName);
+        expect(updatedElements[2][1]).toBeUndefined(libName);
+        expect(updatedElements[2][2].nodeName).toEqual("STRONG", libName);
       }, done);
     });
   });
