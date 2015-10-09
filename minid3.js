@@ -1,7 +1,3 @@
-function quote(string) {
-  return '"' + string + '"'; // XXX not complete
-}
-
 var selectionMixin = {
   select: function(selectorString) {
     return addSelectionMixin(this.reduce(function(a, e) {
