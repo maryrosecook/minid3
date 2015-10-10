@@ -1,15 +1,15 @@
 var selectionMixin = {
   select: function(selectorString) {
-    return addSelectionMixin(this.reduce(function(a, e) {
-      a.push(e.map(function(s) { return s.querySelector(selectorString); }));
+    return addSelectionMixin(this.reduce(function(a, subSelection) {
+      a.push(subSelection.map(function(node) { return node.querySelector(selectorString); }));
       return a;
     }, []));
   },
 
   selectAll: function(selectorString) {
-    return addSelectionMixin(this.reduce(function(a, e) {
-      return a.concat(e.map(function(s) {
-        return arr(s.querySelectorAll(selectorString)); }));
+    return addSelectionMixin(this.reduce(function(a, subSelection) {
+      return a.concat(subSelection.map(function(node) {
+        return toArr(node.querySelectorAll(selectorString)); }));
     }, []));
   },
 
@@ -85,7 +85,7 @@ function addSelectionMixin(selection) {
   return selection;
 };
 
-function arr(arrayLike) {
+function toArr(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
