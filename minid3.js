@@ -18,7 +18,7 @@ var selectionMixin = {
     var exit = [];
 
     this.forEach(function(subSelection) {
-      var originalSubSelection = subSelection.slice();
+      var formerlySelectedItems = subSelection.slice();
       var subSelectionEnter = [];
       var subSelectionExit = [];
 
@@ -31,16 +31,16 @@ var selectionMixin = {
       subSelection.length = data.length;
 
       // enter
-      subSelectionEnter.length = Math.min(originalSubSelection.length, data.length);
+      subSelectionEnter.length = Math.min(formerlySelectedItems.length, data.length);
       for (; i < data.length; i++) {
         subSelectionEnter.push({ __data__: data[i] });
       }
 
       // exit
-      subSelectionExit.length = Math.min(originalSubSelection.length, data.length);
-      for (var i = data.length; i < originalSubSelection.length; i++) {
-        delete originalSubSelection[i].__data__;
-        subSelectionExit.push(originalSubSelection[i]);
+      subSelectionExit.length = Math.min(formerlySelectedItems.length, data.length);
+      for (var i = data.length; i < formerlySelectedItems.length; i++) {
+        delete formerlySelectedItems[i].__data__;
+        subSelectionExit.push(formerlySelectedItems[i]);
       }
 
       enter.push(subSelectionEnter);
