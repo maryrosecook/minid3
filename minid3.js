@@ -24,7 +24,9 @@ var selectionMixin = {
 
       // update
       for (var i = 0; i < subSelection.length; i++) {
-        if (data[i] !== undefined) {
+        if (subSelection[i] === null) { // failed selection
+          delete subSelection[i];
+        } else if (data[i] !== undefined) {
           subSelection[i].__data__ = data[i];
         }
       }

@@ -108,6 +108,23 @@ describe("data()", function() {
         expect(updatedElements[1][2]).toBeUndefined(libName);
       }, done);
     });
+
+    it("should leave selection empty after data() on failed select()", function(done) {
+      // regression: minid3 was creating [[null]] after data call
+
+      var html = ``;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var updatedElements = d3
+            .select("p")
+            .data([0, 1, 2]);
+
+        expect(updatedElements[0].length).toEqual(3, libName);
+        expect(updatedElements[0][0]).toBeUndefined(libName);
+        expect(updatedElements[0][1]).toBeUndefined(libName);
+        expect(updatedElements[0][2]).toBeUndefined(libName);
+      }, done);
+    });
   });
 
   describe("enter()", function() {
