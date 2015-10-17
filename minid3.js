@@ -14,50 +14,48 @@ var selectionMixin = {
   },
 
   data: function(data) {
-    var enter = [];
-    var exit = [];
+    var update = addSelectionMixin([]);
+    var enter = addSelectionMixin([]);
+    var exit = addSelectionMixin([]);
 
     this.forEach(function(subSelection) {
-      var formerlySelectedItems = subSelection.slice();
-      var subSelectionEnter = [];
-      var subSelectionExit = [];
+      var selectedNodes = subSelection.filter(function(n) { return n; });
 
       // update
-      for (var i = 0; i < subSelection.length; i++) {
-        if (subSelection[i] === null) { // failed selection
-          delete subSelection[i];
-        } else if (data[i] !== undefined) {
-          subSelection[i].__data__ = data[i];
-        }
-      }
-      subSelection.length = data.length;
+      var subUpdate = selectedNodes.filter(function(_, i) { return data[i] !== undefined; });
+      setParentNode(subUpdate, subSelection.parentNode);
+      subUpdate.forEach(function(item, i) { item.__data__ = data[i]; })
+      subUpdate.length = data.length;
 
       // enter
-      subSelectionEnter.length = Math.min(formerlySelectedItems.length, data.length);
-      for (; i < data.length; i++) {
-        subSelectionEnter.push({ __data__: data[i] });
+      var subEnter = setParentNode([], subSelection.parentNode);
+      subEnter.length = Math.min(subSelection.length, data.length);
+      for (var i = selectedNodes.length; i < data.length; i++) {
+        subEnter.push({ __data__: data[i] });
       }
 
       // exit
-      subSelectionExit.length = Math.min(formerlySelectedItems.length, data.length);
-      for (var i = data.length; i < formerlySelectedItems.length; i++) {
-        delete formerlySelectedItems[i].__data__;
-        subSelectionExit.push(formerlySelectedItems[i]);
+      var subExit = setParentNode([], subSelection.parentNode);
+      subExit.length = Math.min(subSelection.length, data.length);
+      for (var i = data.length; i < subSelection.length; i++) {
+        delete subSelection[i].__data__;
+        subExit.push(subSelection[i]);
       }
 
-      enter.push(subSelectionEnter);
-      exit.push(subSelectionExit);
+      update.push(subUpdate);
+      enter.push(subEnter);
+      exit.push(subExit);
     });
 
-    this.enter = function() {
+    update.enter = function() {
       return enter;
     };
 
-    this.exit = function() {
+    update.exit = function() {
       return exit;
     };
 
-    return this;
+    return update;
   },
 
   style: function(name, setting) {
