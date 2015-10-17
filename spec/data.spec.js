@@ -365,5 +365,22 @@ describe("data()", function() {
         expect(updatedElements[2][2].nodeName).toEqual("STRONG", libName);
       }, done);
     });
+
+    it("should (yes) put extra undef in exit() sel after data(), failed select()", function(done) {
+      // I don't understand this behaviour - why pad the exit sub selection
+      // with an undefined element corresponding to the failed selection?
+
+      var html = ``;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var elements = d3
+            .select("p")
+            .data([0, 1, 2])
+            .exit();
+
+        expect(elements[0].length).toEqual(1, libName);
+        expect(elements[0][0]).toBeUndefined(libName);
+      }, done);
+    });
   });
 });
