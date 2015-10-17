@@ -29,7 +29,7 @@ var selectionMixin = {
 
       // enter
       var subEnter = setParentNode([], subSelection.parentNode);
-      subEnter.length = Math.min(subSelection.length, data.length);
+      subEnter.length = Math.min(selectedNodes.length, data.length);
       for (var i = selectedNodes.length; i < data.length; i++) {
         subEnter.push({ __data__: data[i] });
       }

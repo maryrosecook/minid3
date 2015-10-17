@@ -234,6 +234,25 @@ describe("data()", function() {
         expect(updatedElements[2][2]).toBeUndefined(libName);
       }, done);
     });
+
+    it("shouldn't put extra undef in enter() sel after data(), failed select()", function(done) {
+      // regression: minid3 was creating [[undefined, p, p, p]] after enter() call
+
+      var html = ``;
+
+      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
+        var enteredElements = d3
+            .select("p")
+            .data([0, 1, 2])
+            .enter();
+
+        expect(enteredElements[0].length).toEqual(3, libName);
+        expect(enteredElements[0][0].__data__).toEqual(0, libName);
+        expect(enteredElements[0][1].__data__).toEqual(1, libName);
+        expect(enteredElements[0][2].__data__).toEqual(2, libName);
+        expect(enteredElements[0][3]).toBeUndefined(libName);
+      }, done);
+    });
   });
 
   describe("exit()", function() {
