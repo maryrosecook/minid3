@@ -23,28 +23,27 @@ var selectionMixin = {
 
       // update
       var subUpdate = selectedNodes.filter(function(_, i) { return data[i] !== undefined; });
-      setParentNode(subUpdate, subSelection.parentNode);
       subUpdate.forEach(function(item, i) { item.__data__ = data[i]; })
       subUpdate.length = data.length;
 
       // enter
-      var subEnter = setParentNode([], subSelection.parentNode);
+      var subEnter = [];
       subEnter.length = Math.min(selectedNodes.length, data.length);
       for (var i = selectedNodes.length; i < data.length; i++) {
         subEnter.push({ __data__: data[i] });
       }
 
       // exit
-      var subExit = setParentNode([], subSelection.parentNode);
+      var subExit = [];
       subExit.length = Math.min(subSelection.length, data.length);
       for (var i = data.length; i < subSelection.length; i++) {
         delete subSelection[i].__data__;
         subExit.push(subSelection[i]);
       }
 
-      update.push(subUpdate);
-      enter.push(subEnter);
-      exit.push(subExit);
+      update.push(setParentNode(subUpdate, subSelection.parentNode));
+      enter.push(setParentNode(subEnter, subSelection.parentNode));
+      exit.push(setParentNode(subExit, subSelection.parentNode));
     });
 
     update.enter = function() {
