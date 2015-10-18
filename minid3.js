@@ -75,6 +75,11 @@ var selectionMixin = {
   }
 };
 
+function setParentNode(selection, parentNode) {
+  selection.parentNode = parentNode;
+  return selection;
+};
+
 function addSelectionMixin(selection) {
   for (var key in selectionMixin) {
     selection[key] = selectionMixin[key];
