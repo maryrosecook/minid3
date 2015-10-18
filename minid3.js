@@ -19,17 +19,16 @@ var selectionMixin = {
     var exit = addSelectionMixin([]);
 
     this.forEach(function(subSelection) {
-      var selectedNodes = subSelection.filter(function(n) { return n; });
-
       // update
-      var subUpdate = selectedNodes.filter(function(_, i) { return data[i] !== undefined; });
-      subUpdate.forEach(function(item, i) { item.__data__ = data[i]; })
-      subUpdate.length = data.length;
+      var subUpdate = subSelection.filter(function(n, i) { return n && data[i] !== undefined; });
+      subUpdate.forEach(function(item, i) { item.__data__ = data[i]; });
+      var numUpdateItems = subUpdate.length;
+      subUpdate.length = data.length; // if data len < subSel len, discards subSel items
 
       // enter
-      var subEnter = [];
-      subEnter.length = Math.min(selectedNodes.length, data.length);
-      for (var i = selectedNodes.length; i < data.length; i++) {
+      var subEnter = subSelection.map(function(n) { return n === null ? null : undefined; });
+      subEnter.length = Math.min(numUpdateItems, data.length);
+      for (var i = subEnter.length; i < data.length; i++) {
         subEnter.push({ __data__: data[i] });
       }
 
