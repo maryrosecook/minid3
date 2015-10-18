@@ -93,8 +93,7 @@ function toArr(arrayLike) {
 };
 
 function initialSelection() {
-  var subSelection = [document];
-  subSelection.parentNode = document.documentElement;
+  var subSelection = setParentNode([document], document.documentElement);
   return addSelectionMixin([subSelection]);
 };
 
