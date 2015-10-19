@@ -1,15 +1,24 @@
 var selectionMixin = {
-  select: function(selectorString) {
+  select: function(selector) {
+    var subSelectionMaker = selector instanceof Function ?
+        selector : function(node) { return node.querySelector(selector); };
+
     return addSelectionMixin(this.reduce(function(a, subSelection) {
-      a.push(subSelection.map(function(node) { return node.querySelector(selectorString); }));
+      var newSubSelection = [];
+      for (var i = 0; i < subSelection.length; i++) { // can't map - subS maybe padded w/ len
+        newSubSelection.push(subSelectionMaker(subSelection[i], subSelection.parentNode));
+      }
+
+      a.push(setParentNode(newSubSelection, subSelection.parentNode));
       return a;
     }, []));
   },
 
-  selectAll: function(selectorString) {
+  selectAll: function(selector) {
     return addSelectionMixin(this.reduce(function(a, subSelection) {
       return a.concat(subSelection.map(function(node) {
-        return toArr(node.querySelectorAll(selectorString)); }));
+        return setParentNode(toArr(node.querySelectorAll(selector)), node);
+      }));
     }, []));
   },
 
@@ -72,6 +81,20 @@ var selectionMixin = {
     });
 
     return this;
+  },
+
+  append: function(nodeName) {
+    return this.select(function(node, parentNode) {
+      if (!node) {
+        return null;
+      } else {
+        var childNode = document.createElement(nodeName);
+        var appendTo = node instanceof Node ? node : parentNode;
+        childNode.__data__ = node.__data__;
+        appendTo.appendChild(childNode);
+        return childNode;
+      }
+    });
   }
 };
 
