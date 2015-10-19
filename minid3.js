@@ -17,7 +17,7 @@ var selectionMixin = {
   selectAll: function(selector) {
     return addSelectionMixin(this.reduce(function(a, subSelection) {
       return a.concat(subSelection.map(function(node) {
-        return setParentNode(toArr(node.querySelectorAll(selector)), node);
+        return setParentNode(toArray(node.querySelectorAll(selector)), node);
       }));
     }, []));
   },
@@ -111,7 +111,7 @@ function addSelectionMixin(selection) {
   return selection;
 };
 
-function toArr(arrayLike) {
+function toArray(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
@@ -122,7 +122,7 @@ var minid3 = {
   },
 
   selectAll: function(selectorString) {
-    return addSelectionMixin([setParentNode(toArr(document.querySelectorAll(selectorString)),
+    return addSelectionMixin([setParentNode(toArray(document.querySelectorAll(selectorString)),
                                             document.documentElement)]);
   }
 };
