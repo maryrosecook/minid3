@@ -28,15 +28,15 @@ describe("dom mutation", function() {
         </div>
       `;
 
-      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-        d3
+      testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+        lib
           .select("#d3")
           .selectAll("div")
           .selectAll("p")
           .selectAll("strong")
           .style("color", "red");
 
-        var strongs = d3.select("#d3").selectAll("strong")
+        var strongs = lib.select("#d3").selectAll("strong")
 
         expect(strongs.length).toEqual(1, libName);
         expect(strongs[0].length).toEqual(8, libName);
@@ -55,13 +55,13 @@ describe("dom mutation", function() {
         </div>
       `;
 
-      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-        d3
+      testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+        lib
           .select("#d3")
           .selectAll("strong")
           .style("color", "red");
 
-        var strongs = d3.select("#d3").selectAll("strong")
+        var strongs = lib.select("#d3").selectAll("strong")
 
         expect(strongs.length).toEqual(1, libName);
         expect(strongs[0].length).toEqual(2, libName);
@@ -80,8 +80,8 @@ describe("dom mutation", function() {
       // select (using enter() for an easy example)
 
       var html = ``;
-      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-        var selection = d3
+      testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+        var selection = lib
             .selectAll("p")
             .data([0])
             .enter()
@@ -89,7 +89,7 @@ describe("dom mutation", function() {
 
         var testHTML = `<head></head><body><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body><p></p>`;
 
-        expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+        expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
       }, done);
     });
 
@@ -99,8 +99,8 @@ describe("dom mutation", function() {
       // select (using enter() for an easy example)
 
       var html = `<p></p>`;
-      testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-        var selection = d3
+      testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+        var selection = lib
             .selectAll("p")
             .data([0, 1])
             .enter()
@@ -108,7 +108,7 @@ describe("dom mutation", function() {
 
         var testHTML = `<head></head><body><p></p><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body><p></p>`;
 
-        expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+        expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
       }, done);
     });
 
@@ -116,8 +116,8 @@ describe("dom mutation", function() {
       describe("select", function() {
         it("should append no elements to html after failed select", function(done) {
           var html = "";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("p")
                 .data([0, 1, 2])
                 .append("p");
@@ -128,14 +128,14 @@ describe("dom mutation", function() {
 
             var testHTML = `<head></head><body><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
           }, done);
         });
 
         it("should bind 1st datum to outer successful sel and inner appended el", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([0, 1])
                 .append("strong");
@@ -148,19 +148,19 @@ describe("dom mutation", function() {
 
             expect(selection[0][1]).toBeNull(libName);
 
-            expect(d3.select("strong")[0][0].__data__).toEqual(0, libName);
-            expect(d3.select("strong strong")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("strong")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("strong strong")[0][0].__data__).toEqual(0, libName);
 
             var testHTML = `<head></head><body><strong><strong></strong></strong><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
           }, done);
         });
 
         it("should append nothing, pad nothing after successful select if no data", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([])
                 .append("p");
@@ -178,8 +178,8 @@ describe("dom mutation", function() {
           // with a null but still sets both datas to 0
 
           var html = `<p></p>`;
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .selectAll("p")
                 .data([0])
                 .append("p");
@@ -192,12 +192,12 @@ describe("dom mutation", function() {
 
             expect(selection[0][1]).toBeUndefined(libName);
 
-            expect(d3.select("p")[0][0].__data__).toEqual(0, libName);
-            expect(d3.select("p p")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("p")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("p p")[0][0].__data__).toEqual(0, libName);
 
             var testHTML = `<head></head><body><p><p></p></p><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
           }, done);
         });
 
@@ -207,8 +207,8 @@ describe("dom mutation", function() {
               </div>
             `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
@@ -219,34 +219,34 @@ describe("dom mutation", function() {
             expect(selection[0].map(function(n) { return n; }))
               .toEqual([null, null, null], libName);
 
-            expect(d3.select("#d3")[0][0].innerHTML.trim()).toEqual('', libName);
+            expect(lib.select("#d3")[0][0].innerHTML.trim()).toEqual('', libName);
           }, done);
         });
 
         it("should bind data[0] to outer p + inner appended p, no bind rest data", function(done) {
           var html = `<div id="d3"><p></p></div>`;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
                 .append("p");
 
-            expect(d3.select("p")[0][0].__data__).toEqual(0, libName);
-            expect(d3.select("p p")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("p")[0][0].__data__).toEqual(0, libName);
+            expect(lib.select("p p")[0][0].__data__).toEqual(0, libName);
 
             var testHTML = `<head></head><body><div id="d3"><p><p></p></p></div><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
           }, done);
         });
 
         it("should pad failed selectAll with nulls for update", function(done) {
           var html = `<div id="d3"><p></p><p></p></div>`;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .selectAll("strong")
@@ -259,7 +259,7 @@ describe("dom mutation", function() {
 
             var testHTML = `<head></head><body><div id="d3"><p></p><p></p></div><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(testHTML, libName);
           }, done);
         });
       });
@@ -269,8 +269,8 @@ describe("dom mutation", function() {
       describe("select", function() {
         it("should append several elements to html after failed select", function(done) {
           var html = "";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("p")
                 .data([0, 1, 2])
                 .enter()
@@ -285,14 +285,14 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body><p></p><p></p><p></p>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
 
         it("should append 1 el to html bound to 2nd datum after successful select", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([0, 1])
                 .enter()
@@ -310,8 +310,8 @@ describe("dom mutation", function() {
 
         it("should append nothing, pad nothing after successful select if no data", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([])
                 .enter()
@@ -331,8 +331,8 @@ describe("dom mutation", function() {
               </div>
             `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
@@ -346,7 +346,7 @@ describe("dom mutation", function() {
             expect(selection[0].map(function(n) { return n.__data__; }))
               .toEqual([0, 1, 2], libName);
 
-            expect(d3.select("#d3")[0][0].innerHTML.trim())
+            expect(lib.select("#d3")[0][0].innerHTML.trim())
               .toEqual('<p></p><p></p><p></p>', libName);
           }, done);
         });
@@ -358,8 +358,8 @@ describe("dom mutation", function() {
               </div>
             `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
@@ -386,8 +386,8 @@ describe("dom mutation", function() {
               </div>
             `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0])
@@ -411,8 +411,8 @@ describe("dom mutation", function() {
             </div>
           `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .selectAll("strong")
@@ -445,8 +445,8 @@ describe("dom mutation", function() {
           // append fills in a null to empty exit sel
 
           var html = "";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("p")
                 .data([0, 1, 2])
                 .exit()
@@ -459,14 +459,14 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
 
         it("should append none, pad w/null after success sel if 1 init el, 2 data", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([0, 1])
                 .exit()
@@ -479,14 +479,14 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><strong></strong><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
 
         it("should append p to str, no pad after successful sel w too short data", function(done) {
           var html = "<strong></strong>";
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("strong")
                 .data([])
                 .exit()
@@ -500,7 +500,7 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><strong><p></p></strong><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
       });
@@ -512,8 +512,8 @@ describe("dom mutation", function() {
               </div>
             `;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
@@ -523,15 +523,15 @@ describe("dom mutation", function() {
             expect(selection.length).toEqual(1, libName);
             expect(selection[0].length).toEqual(0, libName);
 
-            expect(d3.select("#d3")[0][0].innerHTML.trim()).toEqual('', libName);
+            expect(lib.select("#d3")[0][0].innerHTML.trim()).toEqual('', libName);
           }, done);
         });
 
         it("should null pad updated els append none when too much data", function(done) {
           var html = `<div id="d3"><p></p></div>`;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0, 1, 2])
@@ -544,15 +544,15 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><div id="d3"><p></p></div><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
 
         it("should pad 1 el, append none if all data bound", function(done) {
           var html = `<div id="d3"><p></p></div>`;
 
-          testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-            var selection = d3
+          testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+            var selection = lib
                 .select("#d3")
                 .selectAll("p")
                 .data([0])
@@ -565,7 +565,7 @@ describe("dom mutation", function() {
 
             var targetHTML = `<head></head><body><div id="d3"><p></p></div><script class="jsdom" src="node_modules/d3/d3.js"></script><script class="jsdom" src="minid3.js"></script></body>`;
 
-            expect(d3.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
+            expect(lib.select("html")[0][0].innerHTML).toEqual(targetHTML, libName);
           }, done);
         });
       });

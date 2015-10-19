@@ -11,8 +11,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1, 2, 3]);
@@ -35,8 +35,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1]);
@@ -58,8 +58,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1]);
@@ -91,8 +91,8 @@ describe("data()", function() {
           </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .selectAll("p")
               .selectAll("strong")
               .data([0, 1]);
@@ -118,8 +118,8 @@ describe("data()", function() {
 
         var html = ``;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .select("p")
               .data([0, 1, 2]);
 
@@ -133,8 +133,8 @@ describe("data()", function() {
       it("should bind 1 data to el, pad length to rest data on successful select()", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("p")
               .data([0, 1, 2]);
 
@@ -148,8 +148,8 @@ describe("data()", function() {
       it("should bind no els when successful select but no data", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("p")
               .data([]);
 
@@ -170,8 +170,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var unboundStrongs = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var unboundStrongs = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1, 2, 3])
@@ -195,8 +195,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var unboundStrongs = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var unboundStrongs = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1])
@@ -217,8 +217,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var unboundStrongs = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var unboundStrongs = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1])
@@ -249,8 +249,8 @@ describe("data()", function() {
           </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .selectAll("p")
               .selectAll("strong")
               .data([0, 1])
@@ -276,8 +276,8 @@ describe("data()", function() {
 
         var html = ``;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var enteredElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var enteredElements = lib
               .select("p")
               .data([0, 1, 2])
               .enter();
@@ -293,8 +293,8 @@ describe("data()", function() {
       it("should have 1 undef for data bound el, ghost els in for rest of data", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var enteredElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var enteredElements = lib
               .select("p")
               .data([0, 1, 2])
               .enter();
@@ -313,8 +313,8 @@ describe("data()", function() {
       it("should have zero len array when 1 selected el and no data", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var enteredElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var enteredElements = lib
               .select("p")
               .data([])
               .enter();
@@ -336,8 +336,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1, 2, 3])
@@ -360,8 +360,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1])
@@ -384,8 +384,8 @@ describe("data()", function() {
             </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("#d3")
               .selectAll("strong")
               .data([0, 1])
@@ -418,8 +418,8 @@ describe("data()", function() {
           </div>
           `;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var updatedElements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var updatedElements = lib
               .selectAll("p")
               .selectAll("strong")
               .data([0, 1])
@@ -446,8 +446,8 @@ describe("data()", function() {
 
         var html = ``;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("p")
               .data([0, 1, 2])
               .exit();
@@ -460,8 +460,8 @@ describe("data()", function() {
       it("should pad exit sel with undef when select 1 el", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("p")
               .data([0, 1, 2])
               .exit();
@@ -474,8 +474,8 @@ describe("data()", function() {
       it("should exit 1 el when 1 selected and no data", function(done) {
         var html = `<p></p>`;
 
-        testUtil.runWithD3AndMinid3(html, function(d3, libName) {
-          var elements = d3
+        testUtil.runWithD3AndMinid3(html, function(lib, libName) {
+          var elements = lib
               .select("p")
               .data([])
               .exit();
