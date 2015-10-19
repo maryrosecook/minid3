@@ -92,17 +92,14 @@ function toArr(arrayLike) {
   return Array.prototype.slice.call(arrayLike);
 };
 
-function initialSelection() {
-  var subSelection = setParentNode([document], document.documentElement);
-  return addSelectionMixin([subSelection]);
-};
-
 var minid3 = {
   select: function(selectorString) {
-    return initialSelection().select(selectorString);
+    return addSelectionMixin([setParentNode([document], document.documentElement)])
+      .select(selectorString);
   },
 
   selectAll: function(selectorString) {
-    return initialSelection().selectAll(selectorString);
+    return addSelectionMixin([setParentNode(toArr(document.querySelectorAll(selectorString)),
+                                            document.documentElement)]);
   }
 };
