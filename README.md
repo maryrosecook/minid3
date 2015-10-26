@@ -1,6 +1,6 @@
 # minid3
 
-A bare-bones implementation of D3.  Built to learn how the real thing works.
+A bare-bones implementation of D3.  Built to learn how the real thing works.  [Darius](https://github.com/darius) paired with me on some of the code.
 
 Supports `select()`, `selectAll()`, `data()`, `enter()`, `exit()` and `append()`.
 
