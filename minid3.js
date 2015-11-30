@@ -1,5 +1,5 @@
 function select(selector) {
-  var subSelectionMaker = selector instanceof Function ?
+  var subSelectionMaker = typeof selector === 'function' ?
       selector : function(node) { return node.querySelector(selector); };
 
   return mixin(selectExitMixin, this.reduce(function(a, subSelection) {
@@ -68,13 +68,11 @@ function style(name, setting) {
   this.forEach(function(subSelection) {
     var i = 0;
     subSelection.forEach(function(element) {
-      var value;
       if (typeof setting === 'function') {
         element.style[name] = setting(element.__data__, i);
       } else {
         element.style[name] = setting;
       }
-
       ++i;
     });
   });
