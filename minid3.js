@@ -67,7 +67,6 @@ function data(data) {
 function style(name, setting) {
   this.forEach(function(subSelection) {
     subSelection.forEach(function(element, i) {
-      var value;
       if (typeof setting === 'function') {
         element.style[name] = setting(element.__data__, i);
       } else {
