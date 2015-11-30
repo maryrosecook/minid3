@@ -68,13 +68,11 @@ function style(name, setting) {
   this.forEach(function(subSelection) {
     var i = 0;
     subSelection.forEach(function(element) {
-      var value;
       if (typeof setting === 'function') {
         element.style[name] = setting(element.__data__, i);
       } else {
         element.style[name] = setting;
       }
-
       ++i;
     });
   });
