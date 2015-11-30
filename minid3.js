@@ -1,5 +1,5 @@
 function select(selector) {
-  var subSelectionMaker = selector instanceof Function ?
+  var subSelectionMaker = typeof selector === 'function' ?
       selector : function(node) { return node.querySelector(selector); };
 
   return mixin(selectExitMixin, this.reduce(function(a, subSelection) {
